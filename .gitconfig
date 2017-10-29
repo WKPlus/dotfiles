@@ -1,0 +1,34 @@
+[user]
+	email = qifa.zhao@gmail.com
+	name = zhaoqifa
+[color]
+	ui = true
+[push]
+	default = current
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[core]
+	quotepath = false
+[merge]
+	tool = vimdiff
+#[difftool "kdiff3"]
+#    path = /usr/local/bin/kdiff3
+#    trustExitCode = false
+#[difftool]
+#    prompt = false
+#[diff]
+#    tool = kdiff3
+#[mergetool "kdiff3"]
+#    path = /usr/local/bin/kdiff3
+#    trustExitCode = false
+#[mergetool]
+#    keepBackup = false
+#[merge]
+#    tool = kdiff3
+[mergetool]
+	prompt = false
+[https]
+[http]
+[https]
+[https]
