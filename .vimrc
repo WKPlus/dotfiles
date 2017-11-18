@@ -18,31 +18,20 @@
 
 " NEOBUNDLE {{{ ===============================================================
 
-set nocompatible             " No to the total compatibility with the ancient vi
-
-" NeoBundle auto-installation and setup {{{
-
-" Auto installing NeoBundle
-let iCanHazNeoBundle=1
-let neobundle_readme=expand($HOME.'/.vim/bundle/neobundle.vim/README.md')
-if !filereadable(neobundle_readme)
-    echo "Installing NeoBundle.."
-    echo ""
-    silent !mkdir -p $HOME/.vim/bundle
-    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
-    let iCanHazNeoBundle=0
+if &compatible
+  set nocompatible               " Be iMproved
 endif
 
+" Required:
+set runtimepath+=/Users/wkplus/.vim/bundle/neobundle.vim/
 
-" Call NeoBundle
-if has('vim_starting')
-    set rtp+=$HOME/.vim/bundle/neobundle.vim/
-endif
-call neobundle#rc(expand($HOME.'/.vim/bundle/'))
+" Required:
+call neobundle#begin(expand('/Users/wkplus/.vim/bundle'))
 
-" is better if NeoBundle rules NeoBundle (needed!)
-NeoBundle 'Shougo/neobundle.vim'
-" }}}
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
 
 " BUNDLES (plugins administrated by NeoBundle) {{{
 " added by qifa
@@ -153,24 +142,8 @@ inoremap {<CR> {<CR>}<Esc>O
 
 " END BUNDLES }}}
 
-" Auto install the plugins {{{
-
-" First-time plugins installation
-if iCanHazNeoBundle == 0
-    echo "Installing Bundles, please ignore key map error messages"
-    echo ""
-    :NeoBundleInstall
-endif
-
-" Check if all of the plugins are already installed, in other case ask if we
-" want to install them (useful to add plugins in the .vimrc)
-NeoBundleCheck
-
-" }}}
-
 filetype plugin indent on      " Indent and plugins by filetype
 
-" END NEOBUNDLE }}}
 
 " VIM Setup {{{ ===============================================================
 
@@ -336,6 +309,8 @@ if has('gui_running')
 else
     colorscheme molokai256
 endif
+" colorscheme solarized
+" set background=dark
 
 " }}}
 
@@ -1267,9 +1242,9 @@ nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
 " }}}
 " }}}
 
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source('file_mru,file_rec,file_rec/async,grep,locate',
+" call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
+" call unite#custom#source('file_mru,file_rec,file_rec/async,grep,locate',
             \ 'ignore_pattern', join(['\.git/', 'tmp/', 'bundle/'], '\|'))
 
 let g:unite_source_history_yank_enable = 1
@@ -1306,3 +1281,4 @@ let g:junkfile#directory=expand($HOME."/.vim/tmp/junk")
 " END PLUGINS SETUP }}}
 
 " vim:foldmethod=marker
+call neobundle#end()
