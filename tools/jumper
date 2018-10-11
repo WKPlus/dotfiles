@@ -1,0 +1,48 @@
+#!/usr/bin/expect
+# 跳板机域名
+set environment [lindex $argv 0];
+puts "$environment"
+set user ""
+set jumper ""
+
+ if { "$environment" == "" } { set environment "prod" }
+
+if { "$environment" == "prod" } {
+    puts "jump to prod log server"
+    spawn ssh "${user}@${jumper}"
+    expect {
+        "Select group*" {
+            #send_user "please enter verification code (6 digit):"
+            #send_tty "ssh ${host}\r\n"
+            #send "ssh ${host}\r\n"
+            send "2\r"
+        }
+    }
+    expect {
+        "Select page*" {
+            send "0\r"
+        }
+    }
+    expect {
+        "Select server*" {
+            send "8\r"
+        }
+    }
+    interact
+} elseif { "$environment" == "htj" } {
+    puts "jump to htj log server"
+    spawn ssh "${user}@${jumper}"
+    expect {
+        "Select group*" {
+            send "1\r"
+        }
+    }
+    expect {
+        "Select server*" {
+            send "5\r"
+        }
+    }
+    interact
+} else {
+    puts "unknown environment, exit"
+}

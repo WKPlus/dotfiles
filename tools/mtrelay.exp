@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+# 跳板机域名
+set timeout 40
+set bridge_host ""
+# relay帐号
+set username ""
+# relay密码（仅固定密码部分）
+set password ""
+# debug info
+send_user "logining into bridge server...\n"
+send_user "bridge_host: $bridge_host\n"
+send_user "username: $username\n"
+send_user "using password.\n"
+set veri_code [exec oathtool --totp -b -d 6 ]
+# 发起跳板机的请求
+spawn ssh "${username}@${bridge_host}"
+expect {
+    # 如果未登录，则输入密码（仅需要输入6位动态密码），之后跳转到目标主机
+    "*Password*" {
+        send_user "please enter verification code (6 digit):"
+        send "${password}${veri_code}\n"
+    }
+}
+interact
